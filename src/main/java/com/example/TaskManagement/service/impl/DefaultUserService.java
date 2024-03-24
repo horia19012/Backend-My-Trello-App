@@ -17,6 +17,15 @@ public class DefaultUserService implements UserService {
         return usersRepository.findAll();
 
     }
+    public User updateUser(User user){
+        int id=user.getId();
+        User foundUser= getUserById(id);
+        if(foundUser!=null){
+            saveUser(user);
+            return user;
+        }
+        return null;
+    }
 
     @Override
     public User getUserById(int userId) {
