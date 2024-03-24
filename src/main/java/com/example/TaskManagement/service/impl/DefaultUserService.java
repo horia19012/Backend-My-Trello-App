@@ -19,7 +19,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(int userId) {
        Optional<User> userOptional= usersRepository.findById(userId);
         return userOptional.orElse(null);
     }
@@ -31,7 +31,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public void deleteUser(int userId) {
         usersRepository.deleteById(userId);
     }
 }
