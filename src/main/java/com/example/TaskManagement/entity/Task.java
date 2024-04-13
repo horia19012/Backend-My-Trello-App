@@ -11,7 +11,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "task_name")
     private String taskName;
@@ -38,7 +38,7 @@ public class Task {
      *
      * @return The task ID.
      */
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -47,7 +47,7 @@ public class Task {
      *
      * @param id The task ID to set.
      */
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

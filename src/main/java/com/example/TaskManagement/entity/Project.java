@@ -12,7 +12,7 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
-    private Long id;
+    private int id;
 
     @Column(name = "project_name")
     private String projectName;
@@ -26,11 +26,16 @@ public class Project {
     public Project() {
     }
 
+    public Project(String projectName,String projectDescription){
+        this.projectName=projectName;
+        this.projectDescription=projectDescription;
+    }
+
     /**
      * Getter method for the project ID.
      * @return The project ID.
      */
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -38,9 +43,12 @@ public class Project {
      * Setter method for the project ID.
      * @param id The project ID to set.
      */
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+
+
 
     /**
      * Getter method for the project name.
