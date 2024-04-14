@@ -17,6 +17,24 @@ import java.util.*;
 
 import static com.example.TaskManagement.enums.ProjectModification.*;
 
+import com.example.TaskManagement.entity.Project;
+import com.example.TaskManagement.entity.User;
+import com.example.TaskManagement.enums.ProjectModification;
+import com.example.TaskManagement.observer.ProjectObservable;
+import com.example.TaskManagement.observer.UserNotifier;
+import com.example.TaskManagement.repository.ProjectsRepository;
+import com.example.TaskManagement.service.ProjectService;
+import com.example.TaskManagement.service.UserProjectMappingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+
+import static com.example.TaskManagement.enums.ProjectModification.*;
+
+/**
+ * Default implementation of the ProjectService interface.
+ */
 @Service("defaultProjectService")
 public class DefaultProjectService implements ProjectService {
 
@@ -26,23 +44,46 @@ public class DefaultProjectService implements ProjectService {
     private UserProjectMappingService userProjectMappingService;
     private ProjectObservable projectObservable = new ProjectObservable();
 
+    /**
+     * Retrieves all projects.
+     *
+     * @return List of all projects.
+     */
     @Override
     public List<Project> getAllProjects() {
         return projectsRepository.findAll();
     }
 
+    /**
+     * Retrieves a project by its ID.
+     *
+     * @param projectId The ID of the project to retrieve.
+     * @return The project if found, otherwise null.
+     */
     @Override
     public Project getProjectById(int projectId) {
         Optional<Project> projectOptional = projectsRepository.findById(projectId);
         return projectOptional.orElse(null);
     }
 
-
+    /**
+     * Creates a new project.
+     *
+     * @param project The project to be created.
+     * @return The created project.
+     */
     @Override
     public Project createProject(Project project) {
         return projectsRepository.save(project);
     }
 
+    /**
+     * Updates an existing project.
+     *
+     * @param projectId The ID of the project to be updated.
+     * @param project   The updated project.
+     * @return The updated project if successful, otherwise null.
+     */
     @Override
     public Project updateProject(int projectId, Project project) {
         Optional<Project> existingProjectOptional = projectsRepository.findById(projectId);
@@ -63,11 +104,22 @@ public class DefaultProjectService implements ProjectService {
         return null;
     }
 
+    /**
+     * Deletes a project by its ID.
+     *
+     * @param projectId The ID of the project to be deleted.
+     */
     @Override
     public void deleteProject(int projectId) {
         projectsRepository.deleteById(projectId);
     }
 
+    /**
+     * Notifies users about a project modification.
+     *
+     * @param project            The project that has been modified.
+     * @param projectModification The type of modification occurred in the project.
+     */
     public void notifyUsers(Project project, ProjectModification projectModification) {
         Set<User> users = userProjectMappingService.getUsersByProject(project.getId());
         users.forEach(user -> projectObservable.addObserver(new UserNotifier(user)));

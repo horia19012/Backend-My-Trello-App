@@ -6,24 +6,51 @@ import com.example.TaskManagement.enums.ProjectModification;
 
 import java.text.SimpleDateFormat;
 
+/**
+ * Class responsible for notifying users about project modifications.
+ */
 public class UserNotifier implements ProjectsObserver {
     private User user;
 
+    /**
+     * Retrieves the user associated with the notifier.
+     *
+     * @return The user associated with the notifier.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets the user associated with the notifier.
+     *
+     * @param user The user to be associated with the notifier.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Default constructor.
+     */
     public UserNotifier() {
     }
 
+    /**
+     * Parameterized constructor.
+     *
+     * @param user The user to be associated with the notifier.
+     */
     public UserNotifier(User user) {
         this.user = user;
     }
 
+    /**
+     * Method called when a project is modified, notifying the user about the modification.
+     *
+     * @param project            The project that has been modified.
+     * @param projectModification The type of modification occurred in the project.
+     */
     @Override
     public void update(Project project, ProjectModification projectModification) {
 
