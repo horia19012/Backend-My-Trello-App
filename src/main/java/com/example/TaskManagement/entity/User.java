@@ -3,6 +3,7 @@ package com.example.TaskManagement.entity;
 import com.example.TaskManagement.entity.Task;
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="users")
@@ -20,27 +21,6 @@ public class User {
 
     @Column(name="email", unique=true)
     private String email;
-
-    @OneToMany(mappedBy = "assignedToUser", cascade = CascadeType.ALL)
-    private List<Task> tasks;
-
-    // Constructors and other methods omitted for brevity
-
-    /**
-     * Getter method for the list of tasks assigned to the user.
-     * @return The list of tasks assigned to the user.
-     */
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    /**
-     * Setter method for the list of tasks assigned to the user.
-     * @param tasks The list of tasks to set.
-     */
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
 
     // Other getters and setters
 
@@ -86,4 +66,16 @@ public class User {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
