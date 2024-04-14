@@ -1,7 +1,7 @@
 package com.example.TaskManagement.controller;
 
 import com.example.TaskManagement.entity.User;
-import com.example.TaskManagement.service.impl.UserService;
+import com.example.TaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

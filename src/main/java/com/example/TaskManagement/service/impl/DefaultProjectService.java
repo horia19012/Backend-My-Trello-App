@@ -2,7 +2,7 @@ package com.example.TaskManagement.service.impl;
 
 import com.example.TaskManagement.entity.Project;
 import com.example.TaskManagement.repository.ProjectsRepository;
-import com.example.TaskManagement.service.impl.ProjectService;
+import com.example.TaskManagement.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.TaskManagement.service.impl;
+package com.example.TaskManagement.service;
 
 import com.example.TaskManagement.entity.Project;
 

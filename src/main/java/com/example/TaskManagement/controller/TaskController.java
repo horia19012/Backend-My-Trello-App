@@ -1,7 +1,7 @@
 package com.example.TaskManagement.controller;
 
 import com.example.TaskManagement.entity.Task;
-import com.example.TaskManagement.service.impl.TaskService;
+import com.example.TaskManagement.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,5 +54,17 @@ public class TaskController {
     public ResponseEntity<Void> deleteTask(@PathVariable("id") int id) {
         taskService.deleteTask(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUser(@PathVariable int userId) {
+        List<Task> tasks = taskService.getTasksByUser(userId);
+        return ResponseEntity.ok().body(tasks);
+    }
+
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<Task>> getTasksByProject(@PathVariable int projectId) {
+        List<Task> tasks = taskService.getTasksByProject(projectId);
+        return ResponseEntity.ok().body(tasks);
     }
 }

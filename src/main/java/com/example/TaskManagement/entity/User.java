@@ -1,10 +1,9 @@
 package com.example.TaskManagement.entity;
 
+import com.example.TaskManagement.entity.Task;
 import jakarta.persistence.*;
+import java.util.List;
 
-/**
- * Entity class representing a user in the system.
- */
 @Entity
 @Table(name="users")
 public class User {
@@ -13,96 +12,78 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="username",nullable = false)
+    @Column(name="username", nullable = false)
     private String username;
 
-    @Column(name="full_name",nullable = false)
+    @Column(name="full_name", nullable = false)
     private String fullName;
 
-    @Column(name="email",unique=true)
+    @Column(name="email", unique=true)
     private String email;
 
-    /**
-     * Default constructor for the User class.
-     */
-    public User(){
+    @OneToMany(mappedBy = "assignedToUser", cascade = CascadeType.ALL)
+    private List<Task> tasks;
 
+    // Constructors and other methods omitted for brevity
+
+    /**
+     * Getter method for the list of tasks assigned to the user.
+     * @return The list of tasks assigned to the user.
+     */
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     /**
-     * Parameterized constructor for the User class.
-     * @param username The username of the user.
-     * @param fullName The full name of the user.
-     * @param email The email address of the user.
+     * Setter method for the list of tasks assigned to the user.
+     * @param tasks The list of tasks to set.
      */
-    public User(String username,String fullName,String email){
-        super();
-        this.fullName=fullName;
-        this.username=username;
-        this.email=email;
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
-    /**
-     * Getter method for the username.
-     * @return The username of the user.
-     */
-    public String getUsername() {
-        return username;
-    }
+    // Other getters and setters
 
-    /**
-     * Getter method for the full name.
-     * @return The full name of the user.
-     */
-    public String getFullName() {
-        return fullName;
-    }
-
-    /**
-     * Setter method for the full name.
-     * @param fullName The full name to set.
-     */
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    /**
-     * Getter method for the email address.
-     * @return The email address of the user.
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Setter method for the email address.
-     * @param email The email address to set.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Setter method for the username.
-     * @param username The username to set.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Getter method for the user ID.
-     * @return The user ID.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Setter method for the user ID.
-     * @param id The user ID to set.
-     */
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 }

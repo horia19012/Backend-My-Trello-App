@@ -2,6 +2,7 @@ package com.example.TaskManagement.service.impl;
 
 import com.example.TaskManagement.entity.Task;
 import com.example.TaskManagement.repository.TasksRepository;
+import com.example.TaskManagement.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,15 @@ public class DefaultTaskService implements TaskService {
     @Override
     public void deleteTask(int taskId) {
         taskRepository.deleteById(taskId);
+    }
+
+    @Override
+    public List<Task> getTasksByUser(int userId) {
+        return taskRepository.findByAssignedToUserId(userId);
+    }
+
+    @Override
+    public List<Task> getTasksByProject(int projectId) {
+       return taskRepository.findByProjectId(projectId);
     }
 }

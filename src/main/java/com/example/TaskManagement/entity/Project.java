@@ -2,9 +2,8 @@ package com.example.TaskManagement.entity;
 
 import jakarta.persistence.*;
 
-/**
- * Entity class representing a project in the system.
- */
+import java.util.Date;
+
 @Entity
 @Table(name = "projects")
 public class Project {
@@ -20,65 +19,87 @@ public class Project {
     @Column(name = "project_description")
     private String projectDescription;
 
-    /**
-     * Default constructor for the Project class.
-     */
+    @Column(name = "deadline")
+    private Date deadline;
+
+
+    @Column(name = "status")
+    private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     public Project() {
     }
 
-    public Project(String projectName,String projectDescription){
-        this.projectName=projectName;
-        this.projectDescription=projectDescription;
+    public Project(String projectName, String projectDescription, Date deadline, String status, User owner) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.deadline = deadline;
+        this.status = status;
+        this.owner = owner;
     }
 
-    /**
-     * Getter method for the project ID.
-     * @return The project ID.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Setter method for the project ID.
-     * @param id The project ID to set.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-
-
-
-    /**
-     * Getter method for the project name.
-     * @return The project name.
-     */
     public String getProjectName() {
         return projectName;
     }
 
-    /**
-     * Setter method for the project name.
-     * @param projectName The project name to set.
-     */
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
 
-    /**
-     * Getter method for the project description.
-     * @return The project description.
-     */
     public String getProjectDescription() {
         return projectDescription;
     }
 
-    /**
-     * Setter method for the project description.
-     * @param projectDescription The project description to set.
-     */
     public void setProjectDescription(String projectDescription) {
         this.projectDescription = projectDescription;
     }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", projectName='" + projectName + '\'' +
+                ", projectDescription='" + projectDescription + '\'' +
+                ", deadline=" + deadline +
+                ", status='" + status + '\'' +
+                ", owner=" + (owner != null ? owner.getUsername() : "null") +
+                '}';
+    }
+
 }

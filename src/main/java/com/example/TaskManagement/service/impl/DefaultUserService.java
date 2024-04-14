@@ -2,6 +2,7 @@ package com.example.TaskManagement.service.impl;
 
 import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.repository.UsersRepository;
+import com.example.TaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

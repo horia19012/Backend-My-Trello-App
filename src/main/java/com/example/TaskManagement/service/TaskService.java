@@ -1,4 +1,4 @@
-package com.example.TaskManagement.service.impl;
+package com.example.TaskManagement.service;
 
 import com.example.TaskManagement.entity.Task;
 
@@ -16,5 +16,9 @@ public interface TaskService {
     Task updateTask(int taskId, Task task);
 
     void deleteTask(int taskId);
+
+    public List<Task> getTasksByUser(int userId);
+
+    public List<Task> getTasksByProject(int projectId);
 
 }
