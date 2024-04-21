@@ -22,6 +22,15 @@ public class User {
     @Column(name="email", unique=true)
     private String email;
 
+    public User(String username, String fullName, String email) {
+        this.username = username;
+        this.fullName = fullName;
+        this.email = email;
+    }
+    public User(){
+
+    }
+
     // Other getters and setters
 
     public int getId() {

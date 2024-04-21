@@ -18,6 +18,11 @@ public class DefaultUserService implements UserService {
     @Autowired
     private UsersRepository usersRepository;
 
+
+    public DefaultUserService(UsersRepository usersRepository){
+        this.usersRepository=usersRepository;
+    }
+
     /**
      * Retrieves all users from the database.
      * @return A list of all users.
@@ -26,6 +31,9 @@ public class DefaultUserService implements UserService {
     public List<User> getAllUsers() {
         return usersRepository.findAll();
     }
+
+
+
 
     /**
      * Updates the information of a user.

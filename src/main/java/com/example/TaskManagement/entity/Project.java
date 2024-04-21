@@ -55,6 +55,12 @@ public class Project {
         this.owner = owner;
     }
 
+    public Project(String projectName, String projectDescription, User owner) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.owner = owner;
+    }
+
     /**
      * Retrieves the ID of the project.
      *
