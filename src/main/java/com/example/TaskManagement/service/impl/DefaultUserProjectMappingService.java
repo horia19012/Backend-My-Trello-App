@@ -48,10 +48,12 @@ public class DefaultUserProjectMappingService implements UserProjectMappingServi
     public Set<User> getUsersByProject(int projectId) {
         List<UserProjectMapping> mappings = userProjectMappingRepository.findAll();
         Set<User> users = new HashSet<>();
-        for (UserProjectMapping mapping :
-                mappings) {
+        for (UserProjectMapping mapping : mappings) {
             if (mapping.getProjectId() == projectId) {
-                users.add(userService.getUserById(mapping.getUserId()));
+                User user = userService.getUserById(mapping.getUserId());
+                if (user != null) {
+                    users.add(user);
+                }
             }
         }
         return users;

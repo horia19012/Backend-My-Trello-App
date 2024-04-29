@@ -15,6 +15,15 @@ public class UserProjectMapping {
     @Column(name="project_id", nullable = false)
     private int projectId;
 
+    public UserProjectMapping(int userId,int projectId){
+        this.userId=userId;
+        this.projectId=projectId;
+    }
+
+    public UserProjectMapping() {
+
+    }
+
     public int getUserId() {
         return userId;
     }

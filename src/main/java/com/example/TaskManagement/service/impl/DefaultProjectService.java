@@ -44,6 +44,28 @@ public class DefaultProjectService implements ProjectService {
     private UserProjectMappingService userProjectMappingService;
     private ProjectObservable projectObservable = new ProjectObservable();
 
+
+
+
+    public DefaultProjectService(ProjectsRepository projectsRepository,ProjectObservable projectObservable) {
+        this.projectsRepository=projectsRepository;
+        this.projectObservable = projectObservable;
+    }
+    public DefaultProjectService(UserProjectMappingService userProjectMappingService,ProjectObservable projectObservable){
+        this.userProjectMappingService=userProjectMappingService;
+        this.projectObservable =projectObservable;
+
+    }
+    public DefaultProjectService(UserProjectMappingService userProjectMappingService,ProjectsRepository projectsRepository,ProjectObservable projectObservable) {
+        this.userProjectMappingService=userProjectMappingService;
+        this.projectsRepository=projectsRepository;
+        this.projectObservable = projectObservable;
+    }
+    @Autowired
+    public DefaultProjectService(ProjectsRepository projectsRepository){
+        this.projectsRepository=projectsRepository;
+    }
+
     /**
      * Retrieves all projects.
      *
@@ -90,14 +112,14 @@ public class DefaultProjectService implements ProjectService {
 
         if (existingProjectOptional.isPresent()) {
             Project existingProject = existingProjectOptional.get();
-            if (existingProject.getProjectDescription().equals(project.getProjectDescription())) {
-                notifyUsers(project, PROJECT_DESCRIPTION_MODIFICATION);
-            } else if (existingProject.getDeadline().equals(project.getDeadline())) {
-                notifyUsers(project, PROJECT_DEADLINE_CHANGED);
-            }else if (existingProject.getOwner()!=project.getOwner()){
-                notifyUsers(project, PROJECT_OWNER_CHANGED);
+            if (!existingProject.getProjectDescription().equals(project.getProjectDescription())) {
+                notifyUsers(existingProject, PROJECT_DESCRIPTION_MODIFICATION);
+            } else if (!existingProject.getDeadline().equals(project.getDeadline())) {
+                notifyUsers(existingProject, PROJECT_DEADLINE_CHANGED);
+            }else if (!existingProject.getOwner().equals(project.getOwner())){
+                notifyUsers(existingProject, PROJECT_OWNER_CHANGED);
             }
-
+            project.setId(existingProject.getId());
             return projectsRepository.save(project);
         }
 
@@ -126,4 +148,7 @@ public class DefaultProjectService implements ProjectService {
         projectObservable.updateProject(project, projectModification);
     }
 
+    public void setProjectObservable(ProjectObservable projectObservable) {
+        this.projectObservable = projectObservable;
+    }
 }

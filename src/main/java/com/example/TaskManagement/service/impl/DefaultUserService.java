@@ -40,14 +40,13 @@ public class DefaultUserService implements UserService {
      * @param user The user object containing the updated information.
      * @return The updated user object.
      */
-    public User updateUser(User user){
-        int id=user.getId();
-        User foundUser= getUserById(id);
-        if(foundUser!=null){
-            saveUser(user);
-            return user;
+    public User updateUser(User user) {
+        int id = user.getId();
+        User foundUser = getUserById(id);
+        if (foundUser != null) {
+            return saveUser(user); // If user is found, update the user
         }
-        return null;
+        return null; // If user is not found, return null
     }
 
     /**

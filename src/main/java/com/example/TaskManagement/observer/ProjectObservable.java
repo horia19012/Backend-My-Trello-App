@@ -59,5 +59,8 @@ public class ProjectObservable {
         }
     }
 
+    public List<UserNotifier> getUserNotifiers() {
+        return userNotifiers;
+    }
 }
 

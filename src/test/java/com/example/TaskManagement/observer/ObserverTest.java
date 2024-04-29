@@ -17,6 +17,7 @@ public class ObserverTest {
     @Mock
     private User userMock;
 
+    @Mock
     private UserNotifier userNotifier;
     private ProjectObservable projectObservable;
 
@@ -46,7 +47,11 @@ public class ObserverTest {
     public void testProjectObservable() {
         // given
         UserNotifier userNotifierMock = mock(UserNotifier.class);
-        Project project = new Project("ProjectName", "Description", userMock);
+        User user1=new User("user1","fullname1","email1");
+      
+        Project project = new Project("ProjectName1", "Description1", user1);
+
+
         projectObservable.addObserver(userNotifierMock);
 
         // when
