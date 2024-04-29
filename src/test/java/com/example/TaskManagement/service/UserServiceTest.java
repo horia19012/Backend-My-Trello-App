@@ -1,8 +1,7 @@
-package com.example.TaskManagement.server;
+package com.example.TaskManagement.service;
 
 import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.repository.UsersRepository;
-import com.example.TaskManagement.service.UserService;
 import com.example.TaskManagement.service.impl.DefaultUserService;
 import org.junit.Before;
 import org.junit.Test;
