@@ -12,6 +12,10 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * This class contains tests for observer pattern implementation within the project management system.
+ * It tests the functionality of notifying users about changes to projects and how observers respond to notifications.
+ */
 public class ObserverTest {
 
     @Mock
@@ -21,6 +25,10 @@ public class ObserverTest {
     private UserNotifier userNotifier;
     private ProjectObservable projectObservable;
 
+    /**
+     * Initializes mocks and sets up the test environment before each test.
+     * It creates an instance of UserNotifier and ProjectObservable to be used in the tests.
+     */
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -28,6 +36,10 @@ public class ObserverTest {
         projectObservable = new ProjectObservable();
     }
 
+    /**
+     * Tests the update mechanism of UserNotifier when a project reaches its deadline.
+     * It verifies that the notifier correctly utilizes the User object during the notification process.
+     */
     @Test
     public void testUserNotifierUpdate() {
         // given
@@ -38,19 +50,20 @@ public class ObserverTest {
         userNotifier.update(project, ProjectModification.PROJECT_DEADLINE_REACHED);
 
         // then
-        // You can't directly assert the console output, but you can verify that the user's getUsername() method was called
-        //TODO Verify case when has logic
+        // The test checks that the getUsername method is called, implying that the UserNotifier queried the user's information.
         verify(userMock).getUsername();
     }
 
+    /**
+     * Tests the notification mechanism within ProjectObservable to ensure that it correctly notifies all registered observers
+     * about a specific project modification, in this case, when a project deadline is reached.
+     */
     @Test
     public void testProjectObservable() {
         // given
         UserNotifier userNotifierMock = mock(UserNotifier.class);
-        User user1=new User("user1","fullname1","email1");
-      
+        User user1 = new User("user1", "fullname1", "email1");
         Project project = new Project("ProjectName1", "Description1", user1);
-
 
         projectObservable.addObserver(userNotifierMock);
 
@@ -58,7 +71,7 @@ public class ObserverTest {
         projectObservable.updateProject(project, ProjectModification.PROJECT_DEADLINE_REACHED);
 
         // then
-        // Verify that the update method of the userNotifierMock was called
+        // Verify that the update method of the userNotifierMock was called, confirming that notifications are being dispatched correctly.
         verify(userNotifierMock).update(project, ProjectModification.PROJECT_DEADLINE_REACHED);
     }
 }
