@@ -52,3 +52,263 @@ When a project undergoes modification, such as the addition of tasks or changes 
 By incorporating these functionalities and technologies, TaskFlow empowers teams to collaborate more efficiently, track project progress in real-time, and ultimately achieve their goals with greater transparency and agility.
 
 
+## Project Controller API Endpoints
+
+### **1. Get All Projects**
+- **Method:** `GET`
+- **Endpoint:** `/projects`
+- **Description:** Retrieves a list of all the projects.
+- **Success Response Code:** `200 OK`
+- **Response Body Example:**
+  ```json
+  [
+    {
+      "id": 1,
+      "projectName": "Project Alpha",
+      "projectDescription": "Description of Project Alpha",
+      "deadline": "2024-12-31T23:59:59",
+      "status": "Active",
+      "owner": "ownerUsername"
+    },
+    {
+      "id": 2,
+      "projectName": "Project Beta",
+      "projectDescription": "Description of Project Beta",
+      "deadline": "2025-12-31T23:59:59",
+      "status": "Planning",
+      "owner": "ownerUsername"
+    }
+  ]
+
+### **2. Get Project by ID
+- **Method:** `GET`
+- **Endpoint:** `/projects/{id}`
+- **Description:** Retrieves a specific project by its ID.
+- **Parameters:**
+  - `id` (int) - The unique identifier of the project.
+- **Success Response Codes:**
+  - `200 OK` - Successfully retrieved the project.
+  - `404 Not Found` - No project found with the specified ID.
+- **Response Body Example:**
+  ```json
+  {
+    "id": 1,
+    "projectName": "Project Alpha",
+    "projectDescription": "Description of Project Alpha",
+    "deadline": "2024-12-31T23:59:59",
+    "status": "Active",
+    "owner": "ownerUsername"
+  }
+
+- **Status Codes:**
+  - `200 OK` - Successful operation.
+  - `404 Not Found` - If the project with the given ID does not exist.
+
+### Create New Project
+- **Endpoint:** `POST /projects`
+- **Description:** Create a new project.
+- **Request Body:** JSON object representing the project to be created.
+- **Response:** Created project object with details.
+- **Status Codes:**
+  - `201 Created` - Project successfully created.
+
+### Update Project
+- **Endpoint:** `PUT /projects/{id}`
+- **Description:** Update an existing project.
+- **Parameters:**
+  - `id` (integer) - ID of the project to be updated.
+- **Request Body:** JSON object representing the updated project.
+- **Response:** Updated project object with details.
+- **Status Codes:**
+  - `200 OK` - Project successfully updated.
+  - `404 Not Found` - If the project with the given ID does not exist.
+
+### Delete Project
+- **Endpoint:** `DELETE /projects/{id}`
+- **Description:** Delete a project by its ID.
+- **Parameters:**
+  - `id` (integer) - ID of the project to be deleted.
+- **Response:** No content.
+- **Status Codes:**
+  - `204 No Content` - Project successfully deleted.
+
+
+## Task Controller API Endpoints
+
+### Retrieve All Tasks
+- **Endpoint:** `GET /tasks`
+- **Description:** Retrieve a list of all tasks.
+- **Response Example:**
+  ```json
+  [
+    {
+      "id": 1,
+      "taskName": "Task 1",
+      "taskDescription": "Description of Task 1",
+      "deadline": "2024-05-15",
+      "priority": "High",
+      "status": "InProgress",
+      "assignedToUser": {
+        "id": 1,
+        "username": "user1"
+      },
+      "project": {
+        "projectId": 1,
+        "projectName": "Project A"
+      }
+    },
+    {
+      "id": 2,
+      "taskName": "Task 2",
+      "taskDescription": "Description of Task 2",
+      "deadline": "2024-05-20",
+      "priority": "Medium",
+      "status": "Pending",
+      "assignedToUser": {
+        "id": 2,
+        "username": "user2"
+      },
+      "project": {
+        "projectId": 2,
+        "projectName": "Project B"
+      }
+    }
+
+### Retrieve Task by ID
+- **Endpoint:** `GET /tasks/{id}`
+- **Description:** Retrieve a task by its ID.
+- **Parameters:**
+  - `id` (integer) - ID of the task to retrieve.
+- **Response Example:**
+  ```json
+  {
+    "id": 1,
+    "taskName": "Task 1",
+    "taskDescription": "Description of Task 1",
+    "deadline": "2024-05-15",
+    "priority": "High",
+    "status": "InProgress",
+    "assignedToUser": {
+      "id": 1,
+      "username": "user1"
+    },
+    "project": {
+      "projectId": 1,
+      "projectName": "Project A"
+    }
+  }
+
+### Create New Task
+- **Endpoint:** `POST /tasks`
+- **Description:** Create a new task.
+- **Request Body Example:**
+  ```json
+  {
+    "taskName": "New Task",
+    "taskDescription": "Description of New Task",
+    "deadline": "2024-05-25",
+    "priority": "Low",
+    "status": "Pending",
+    "assignedToUser": {
+      "id": 3
+    },
+    "project": {
+      "projectId": 3
+    }
+  }
+
+
+Status Codes:
+201 Created - Task successfully created.
+
+
+### Update Task
+- **Endpoint:** `PUT /tasks/{id}`
+- **Description:** Update an existing task.
+- **Parameters:**
+  - `id` (integer) - ID of the task to be updated.
+- **Request Body Example:** 
+  ```json
+  {
+    "taskName": "Updated Task Name",
+    "taskDescription": "Updated Description of Task",
+    "deadline": "2024-05-30",
+    "priority": "High",
+    "status": "InProgress",
+    "assignedToUser": {
+      "id": 4
+    },
+    "project": {
+      "projectId": 2
+    }
+  }
+
+Status Codes:
+200 OK - Task successfully updated.
+404 Not Found - If the task with the given ID does not exist.
+
+
+### Retrieve Tasks by User ID
+- **Endpoint:** `GET /tasks/user/{userId}`
+- **Description:** Retrieve tasks assigned to a specific user.
+- **Parameters:**
+  - `userId` (integer) - ID of the user.
+- **Response Example:** Same as the retrieve all tasks response.
+- **Status Codes:**
+  - `200 OK` - Successful operation.
+
+
+### Retrieve Tasks by Project ID
+- **Endpoint:** `GET /tasks/project/{projectId}`
+- **Description:** Retrieve tasks associated with a specific project.
+- **Parameters:**
+  - `projectId` (integer) - ID of the project.
+- **Response Example:** Same as the retrieve all tasks response.
+- **Status Codes:**
+  - `200 OK` - Successful operation.
+
+
+## User Controller API Endpoints
+
+### Retrieve All Users
+- **Method:** GET
+- **Endpoint:** `/users/get`
+- **Description:** Retrieves a list of all users from the system.
+- **Response Body Example:**
+  ```json
+  [
+    {
+      "id": 1,
+      "username": "user1",
+      "fullName": "User One",
+      "email": "user1@example.com"
+    },
+    {
+      "id": 2,
+      "username": "user2",
+      "fullName": "User Two",
+      "email": "user2@example.com"
+    }
+  ]
+
+Status Codes:
+200 OK: Successful operation.
+
+
+### Save User
+- **Method:** POST
+- **Endpoint:** `/users/save`
+- **Description:** Saves a new user in the system.
+- **Request Body Example:**
+  ```json
+  {
+    "username": "new_user",
+    "fullName": "New User",
+    "email": "new_user@example.com"
+  }
+
+Status Codes:
+200 OK: Successful operation.
+
+
+
