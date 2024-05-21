@@ -1,9 +1,12 @@
 package com.example.TaskManagement.service.impl;
 
+import com.example.TaskManagement.DTO.UserDTO;
 import com.example.TaskManagement.entity.User;
+import com.example.TaskManagement.exception.DuplicateException;
 import com.example.TaskManagement.repository.UsersRepository;
 import com.example.TaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +21,18 @@ public class DefaultUserService implements UserService {
     @Autowired
     private UsersRepository usersRepository;
 
+    private PasswordEncoder passwordEncoder;
 
-    public DefaultUserService(UsersRepository usersRepository){
-        this.usersRepository=usersRepository;
+
+    @Autowired
+    public DefaultUserService(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+        this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
      * Retrieves all users from the database.
+     *
      * @return A list of all users.
      */
     @Override
@@ -33,50 +41,80 @@ public class DefaultUserService implements UserService {
     }
 
 
-
-
     /**
      * Updates the information of a user.
-     * @param user The user object containing the updated information.
+     *
+     * @param userDTO The user object containing the updated information.
      * @return The updated user object.
      */
-    public User updateUser(User user) {
-        int id = user.getId();
-        User foundUser = getUserById(id);
+    @Override
+    public User updateUser(UserDTO userDTO) {
+        String username = userDTO.getUsername();
+        User foundUser = getUserByUsername(username);
         if (foundUser != null) {
-            return saveUser(user); // If user is found, update the user
+
+            userDTO.setId(foundUser.getId());
+            return saveUser(userDTO);
         }
-        return null; // If user is not found, return null
+        return null;
     }
 
     /**
      * Retrieves a user by their ID.
+     *
      * @param userId The ID of the user to retrieve.
      * @return The user object if found, otherwise null.
      */
     @Override
     public User getUserById(int userId) {
-        Optional<User> userOptional= usersRepository.findById(userId);
+        Optional<User> userOptional = usersRepository.findById(userId);
         return userOptional.orElse(null);
     }
 
     /**
      * Saves a new user or updates an existing one.
-     * @param user The user object to save or update.
+     *
+     * @param userDTO The user object to save or update.
      * @return The saved or updated user object.
      */
     @Override
-    public User saveUser(User user) {
+    public User saveUser(UserDTO userDTO) {
+        User user = new User(
+                userDTO.getUsername(),
+                userDTO.getFullName(),
+                userDTO.getEmail(),
+                this.passwordEncoder.encode(userDTO.getPassword())
+        );
+
+        if (usersRepository.existsByEmail(userDTO.getEmail())) {
+            throw new DuplicateException("Email already exists: " + userDTO.getEmail());
+        }
+        if (usersRepository.existsByUsername(userDTO.getUsername())) {
+            throw new DuplicateException("Username already exists: " + userDTO.getUsername());
+        }
+
+        if (userDTO.getId() != 0) {
+            user.setId(userDTO.getId());
+        }
+
         usersRepository.save(user);
         return user;
     }
 
     /**
      * Deletes a user by their ID.
+     *
      * @param userId The ID of the user to delete.
      */
     @Override
     public void deleteUser(int userId) {
         usersRepository.deleteById(userId);
     }
+
+    @Override
+    public User getUserByUsername(String username) {
+        Optional<User> userOptional = usersRepository.findByUsername(username);
+        return userOptional.orElse(null);
+    }
+
 }

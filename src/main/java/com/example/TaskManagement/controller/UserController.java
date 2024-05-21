@@ -1,10 +1,12 @@
 package com.example.TaskManagement.controller;
 
+import com.example.TaskManagement.DTO.UserDTO;
 import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +15,7 @@ import java.util.List;
 /**
  * Controller class for managing user-related endpoints.
  */
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UserController {
 
@@ -21,10 +23,16 @@ public class UserController {
     @Qualifier("defaultUserService")
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * Retrieves all users from the system.
+     *
      * @return A list of all users.
      */
+
+
     @GetMapping("/get")
     @ResponseBody
     public List<User> getAll() {
@@ -33,17 +41,19 @@ public class UserController {
 
     /**
      * Saves a new user in the system.
-     * @param user The user object to save.
+     *
+     * @param userDTO The user object to save.
      * @return The saved user.
      */
-    @PostMapping("/save")
+    @PostMapping("/signup")
     @ResponseBody
-    public User saveUser(@RequestBody User user){
-        return userService.saveUser(user);
+    public User saveUser(@RequestBody UserDTO userDTO) {
+        return userService.saveUser(userDTO);
     }
 
     /**
      * Deletes a user from the system by their unique ID.
+     *
      * @param userId The ID of the user to delete.
      * @return ResponseEntity with a message indicating successful deletion.
      */
@@ -56,13 +66,13 @@ public class UserController {
 
     /**
      * Updates an existing user in the system.
-     * @param user The user object with updated information.
+     *
+     * @param userDTO The user object with updated information.
      * @return The updated user.
      */
     @PutMapping("/put")
     @ResponseBody
-    public User updateUser(@RequestBody User user){
-        userService.updateUser(user);
-        return user;
+    public User updateUser(@RequestBody UserDTO userDTO) {
+        return userService.updateUser(userDTO);
     }
 }

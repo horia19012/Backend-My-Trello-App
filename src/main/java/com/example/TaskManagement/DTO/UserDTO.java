@@ -1,50 +1,49 @@
-package com.example.TaskManagement.entity;
+package com.example.TaskManagement.DTO;
 
-import com.example.TaskManagement.entity.Task;
-import jakarta.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import com.example.TaskManagement.entity.User;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Entity
-@Table(name="users")
-public class User {
+public class UserDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="username", nullable = false,unique=true)
+
     private String username;
 
-    @Column(name="full_name", nullable = false)
     private String fullName;
 
-    @Column(name="email", unique=true)
+
     private String email;
 
-    @Column(name="password")
+
     private String password;
 
-    public User(String username, String fullName, String email,String password) {
+    public UserDTO(int id, String username, String fullName, String email, String password) {
+        this.id = id;
         this.username = username;
         this.fullName = fullName;
         this.email = email;
+        this.password = password;
+    }
+
+    public UserDTO(String username, String fullName, String email, String password) {
+        this.username=username;
+        this.fullName=fullName;
+        this.email=email;
         this.password=password;
     }
-    public User(String username,String fullName,String email){
-        this.username = username;
-        this.fullName = fullName;
-        this.email = email;
-    }
-
-    public User(){
+    public UserDTO(){
 
     }
-    public User(String username){
-        this.username=username;
+    public UserDTO(User user){
+        this.username=user.getUsername();
+        this.fullName=user.getFullName();
+        this.email=user.getEmail();
+        this.password=user.getPassword();
     }
-
-    // Other getters and setters
 
     public int getId() {
         return id;
@@ -88,24 +87,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

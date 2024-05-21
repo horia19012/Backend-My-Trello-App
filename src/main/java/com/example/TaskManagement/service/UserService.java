@@ -1,5 +1,6 @@
 package com.example.TaskManagement.service;
 
+import com.example.TaskManagement.DTO.UserDTO;
 import com.example.TaskManagement.entity.User;
 
 import java.util.List;
@@ -20,8 +21,10 @@ public interface UserService {
      * @param user The user object with updated information.
      * @return The updated user.
      */
-    User updateUser(User user);
+    User updateUser(UserDTO user);
 
+
+    User getUserByUsername(String username);
     /**
      * Retrieves a user by their unique ID.
      * @param userId The ID of the user to retrieve.
@@ -34,7 +37,7 @@ public interface UserService {
      * @param user The user object to save or update.
      * @return The saved or updated user.
      */
-    User saveUser(User user);
+    User saveUser(UserDTO user);
 
     /**
      * Deletes a user from the system by their unique ID.

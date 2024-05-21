@@ -11,6 +11,7 @@ import com.example.TaskManagement.service.impl.DefaultProjectService;
 import com.example.TaskManagement.service.impl.DefaultUserProjectMappingService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -29,7 +30,9 @@ public class ProjectServiceTest {
     @Mock
     private ProjectObservable projectObservable;
 
+
     private DefaultProjectService projectService;
+    @Mock
     private UserService userService;
     @Mock
     private UserProjectMappingService userProjectMappingServiceMock;
@@ -42,8 +45,6 @@ public class ProjectServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userService = mock(UserService.class);
-        userProjectMappingServiceMock = mock(DefaultUserProjectMappingService.class);
         this.projectService = new DefaultProjectService(userProjectMappingServiceMock,projectRepoMock,projectObservable);
 
 

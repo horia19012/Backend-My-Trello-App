@@ -1,6 +1,8 @@
 package com.example.TaskManagement.service;
 
+import com.example.TaskManagement.DTO.UserDTO;
 import com.example.TaskManagement.entity.User;
+import com.example.TaskManagement.mapper.UserMapper;
 import com.example.TaskManagement.repository.UsersRepository;
 import com.example.TaskManagement.service.impl.DefaultUserService;
 import org.junit.Before;
@@ -9,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,11 +26,16 @@ public class UserServiceTest {
     private static final String USERNAME = "username";
     private static final String EMAIL = "email";
     private static final String FULL_NAME = "fullname";
+    private static final String PASSWORD="123";
     private static final int ID = 1;
 
     @Mock
     private UsersRepository userRepoMock;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
     private User user;
+    private UserDTO userDTO;
 
     private UserService userService;
 
@@ -35,18 +43,21 @@ public class UserServiceTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         //this.dateMoc = new Date();
-        user = new User(USERNAME, FULL_NAME, EMAIL);
+        user = new User(USERNAME, FULL_NAME, EMAIL,PASSWORD);
         user.setId(ID);
-        userService = new DefaultUserService(userRepoMock);
+
+        userDTO=new UserDTO(USERNAME,FULL_NAME,EMAIL,PASSWORD);
+
+        userService = new DefaultUserService(userRepoMock,passwordEncoder);
     }
 
     @Test
     public void shouldSaveUser() {
         //when
-        userService.saveUser(user);
+        userService.saveUser(userDTO);
 
         //then
-        verify(userRepoMock).save(user);
+        verify(userRepoMock).save(UserMapper.toEntity(userDTO));
     }
 
     @Test
@@ -92,10 +103,12 @@ public class UserServiceTest {
     @Test
     public void shouldSaveUser_whenUserFound() {
         //given
-        doReturn(Optional.of(user)).when(userRepoMock).findById(ID);
+        doReturn(Optional.of(user)).when(userRepoMock).findByUsername(user.getUsername());
 
+        UserDTO foundUserDTO=UserMapper.toDTO(user);
+        foundUserDTO.setId(user.getId());
         //when
-        userService.updateUser(user);
+        userService.updateUser(foundUserDTO);
 
         //then
         verify(userRepoMock).save(user);
@@ -107,10 +120,10 @@ public class UserServiceTest {
         doReturn(Optional.empty()).when(userRepoMock).findById(ID);
 
         //when
-        userService.updateUser(user);
+        userService.updateUser(userDTO);
 
         //then
-        verify(userRepoMock, never()).save(user);
+        verify(userRepoMock, never()).save(UserMapper.toEntity(userDTO));
     }
 
     @Test
@@ -141,7 +154,7 @@ public class UserServiceTest {
     @Test
     public void shouldSaveUser_whenUserNotFoundAndUpdated() {
         // given
-        User newUser = new User("newUser", "New User", "newuser@example.com");
+        UserDTO newUser = new UserDTO("newUser", "New User", "newuser@example.com",PASSWORD);
         newUser.setId(ID);
         doReturn(Optional.empty()).when(userRepoMock).findById(ID);
 
@@ -149,7 +162,7 @@ public class UserServiceTest {
         userService.updateUser(newUser);
 
         // then
-        verify(userRepoMock, never()).save(newUser);
+        verify(userRepoMock, never()).save(UserMapper.toEntity(newUser));
     }
 
 

@@ -35,6 +35,7 @@ public class ProjectController {
      *
      * @return ResponseEntity containing a list of projects and HttpStatus OK.
      */
+    @CrossOrigin("http://localhost:4200")
     @GetMapping
     public ResponseEntity<List<Project>> getAllProjects() {
         List<Project> projects = projectService.getAllProjects();
