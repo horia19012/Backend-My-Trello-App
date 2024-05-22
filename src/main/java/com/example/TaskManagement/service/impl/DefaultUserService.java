@@ -5,10 +5,16 @@ import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.exception.DuplicateException;
 import com.example.TaskManagement.repository.UsersRepository;
 import com.example.TaskManagement.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +24,10 @@ import java.util.Optional;
 @Service("defaultUserService")
 public class DefaultUserService implements UserService {
 
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    private PasswordEncoder passwordEncoder;
-
+    private static final Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
 
     @Autowired
     public DefaultUserService(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
@@ -40,7 +45,6 @@ public class DefaultUserService implements UserService {
         return usersRepository.findAll();
     }
 
-
     /**
      * Updates the information of a user.
      *
@@ -52,7 +56,6 @@ public class DefaultUserService implements UserService {
         String username = userDTO.getUsername();
         User foundUser = getUserByUsername(username);
         if (foundUser != null) {
-
             userDTO.setId(foundUser.getId());
             return saveUser(userDTO);
         }
@@ -116,5 +119,7 @@ public class DefaultUserService implements UserService {
         Optional<User> userOptional = usersRepository.findByUsername(username);
         return userOptional.orElse(null);
     }
+
+
 
 }

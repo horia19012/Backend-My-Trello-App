@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -164,6 +166,21 @@ public class UserServiceTest {
         // then
         verify(userRepoMock, never()).save(UserMapper.toEntity(newUser));
     }
+//    @Test
+//    public void testLoadUserByUsername_UserExists() {
+//        // Arrange
+//        User mockUser = new User("john_doe", "John Doe", "john@example.com", "encoded_password");
+//        when(userRepoMock.findByUsername(anyString())).thenReturn(Optional.of(mockUser));
+//
+//        // Act
+//        UserDetails userDetails = userService.loadUserByUsername("john_doe");
+//
+//        // Assert
+//        assertNotNull(userDetails);
+//        assertEquals("john_doe", userDetails.getUsername());
+//        assertEquals("encoded_password", userDetails.getPassword());
+//    }
+
 
 
 }
