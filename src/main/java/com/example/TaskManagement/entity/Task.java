@@ -203,8 +203,9 @@ public class Task {
                 ", deadline=" + deadline +
                 ", priority='" + priority + '\'' +
                 ", status='" + status + '\'' +
-                ", assignedToUser=" + (assignedToUser != null ? assignedToUser.getUsername() : "null") +
+                ", assignedToUser=" + (assignedToUser != null ? assignedToUser.getUsername() : "unassigned") +
                 ", project=" + (project != null ? project.getProjectName() : "null") +
                 '}';
     }
+
 }

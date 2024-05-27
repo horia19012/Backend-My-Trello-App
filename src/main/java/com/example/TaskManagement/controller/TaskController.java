@@ -14,7 +14,7 @@ import java.util.Optional;
  * Controller class for handling RESTful API requests related to tasks.
  */
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("api/tasks")
 public class TaskController {
 
     private final TaskService taskService;

@@ -70,23 +70,34 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public Task createTask(Task task) {
+        // Retrieve the project
         Project project = projectService.getProjectById(task.getProject().getId());
-        User user = userService.getUserById(task.getAssignedToUser().getId());
-        if (project != null && user != null) {
-            userProjectMappingService.addUserToProject(user.getId(), project.getId());
 
+        // Retrieve the user only if assignedToUser is not null
+        User user = null;
+        if (task.getAssignedToUser() != null) {
+            user = userService.getUserById(task.getAssignedToUser().getId());
         }
 
-        if (project != null) {
-            if (project.getDeadline().before(new Date())) {
-                return null;
+        // If the project and user (if not null) are valid, proceed with adding the user to the project
+        if (project != null && (user != null || task.getAssignedToUser() == null)) {
+            if (user != null) {
+                userProjectMappingService.addUserToProject(user.getId(), project.getId());
             }
+
+            // Check if the project's deadline has passed
+            if (project.getDeadline().before(new Date())) {
+                return null; // Do not save the task if the project's deadline has passed
+            }
+
+            // Notify users about the new task in the project
             projectService.notifyUsers(project, ProjectModification.PROJECT_ADDED_TASK);
 
+            // Save and return the task
             return taskRepository.save(task);
         }
-        return null;
 
+        return null; // Return null if the project is not found or invalid user
     }
 
     /**
