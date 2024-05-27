@@ -45,6 +45,8 @@ public class UserController {
      * @param userDTO The user object to save.
      * @return The saved user.
      */
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/signup")
     @ResponseBody
     public User saveUser(@RequestBody UserDTO userDTO) {

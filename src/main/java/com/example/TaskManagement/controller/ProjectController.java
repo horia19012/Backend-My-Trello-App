@@ -13,7 +13,7 @@ import java.util.List;
  * Controller class for handling RESTful API requests related to projects.
  */
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/api/projects")
 public class ProjectController {
 
     private ProjectService projectService;

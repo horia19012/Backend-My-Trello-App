@@ -2,6 +2,7 @@ package com.example.TaskManagement.service.impl;
 
 import com.example.TaskManagement.DTO.UserDTO;
 import com.example.TaskManagement.entity.User;
+import com.example.TaskManagement.enums.Role;
 import com.example.TaskManagement.exception.DuplicateException;
 import com.example.TaskManagement.repository.UsersRepository;
 import com.example.TaskManagement.service.UserService;
@@ -86,7 +87,8 @@ public class DefaultUserService implements UserService {
                 userDTO.getUsername(),
                 userDTO.getFullName(),
                 userDTO.getEmail(),
-                this.passwordEncoder.encode(userDTO.getPassword())
+                this.passwordEncoder.encode(userDTO.getPassword()),
+                Role.USER
         );
 
         if (usersRepository.existsByEmail(userDTO.getEmail())) {

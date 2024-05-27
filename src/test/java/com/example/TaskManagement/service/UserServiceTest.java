@@ -2,6 +2,7 @@ package com.example.TaskManagement.service;
 
 import com.example.TaskManagement.DTO.UserDTO;
 import com.example.TaskManagement.entity.User;
+import com.example.TaskManagement.enums.Role;
 import com.example.TaskManagement.mapper.UserMapper;
 import com.example.TaskManagement.repository.UsersRepository;
 import com.example.TaskManagement.service.impl.DefaultUserService;
@@ -30,6 +31,7 @@ public class UserServiceTest {
     private static final String FULL_NAME = "fullname";
     private static final String PASSWORD="123";
     private static final int ID = 1;
+    private Role ROLE= Role.USER;
 
     @Mock
     private UsersRepository userRepoMock;
@@ -48,7 +50,7 @@ public class UserServiceTest {
         user = new User(USERNAME, FULL_NAME, EMAIL,PASSWORD);
         user.setId(ID);
 
-        userDTO=new UserDTO(USERNAME,FULL_NAME,EMAIL,PASSWORD);
+        userDTO=new UserDTO(USERNAME,FULL_NAME,EMAIL,PASSWORD,ROLE);
 
         userService = new DefaultUserService(userRepoMock,passwordEncoder);
     }
@@ -156,7 +158,7 @@ public class UserServiceTest {
     @Test
     public void shouldSaveUser_whenUserNotFoundAndUpdated() {
         // given
-        UserDTO newUser = new UserDTO("newUser", "New User", "newuser@example.com",PASSWORD);
+        UserDTO newUser = new UserDTO("newUser", "New User", "newuser@example.com",PASSWORD,ROLE);
         newUser.setId(ID);
         doReturn(Optional.empty()).when(userRepoMock).findById(ID);
 
