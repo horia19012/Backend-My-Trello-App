@@ -15,4 +15,5 @@ public interface UserProjectMappingService {
     void addUserToProject(int userId, int projectId);
 
     void removeUserFromProject(int userId, int projectId);
+
 }

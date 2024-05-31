@@ -5,6 +5,7 @@ import com.example.TaskManagement.entity.Task;
 import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.enums.ProjectModification;
 import com.example.TaskManagement.repository.TasksRepository;
+import com.example.TaskManagement.repository.UsersRepository;
 import com.example.TaskManagement.service.ProjectService;
 import com.example.TaskManagement.service.TaskService;
 import com.example.TaskManagement.service.UserProjectMappingService;
@@ -12,6 +13,7 @@ import com.example.TaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,8 @@ import java.util.Optional;
 public class DefaultTaskService implements TaskService {
 
     private final TasksRepository taskRepository;
+
+    private final UsersRepository usersRepository;
     private final ProjectService projectService;
     private final UserService userService;
     private final UserProjectMappingService userProjectMappingService;
@@ -30,14 +34,16 @@ public class DefaultTaskService implements TaskService {
     /**
      * Constructs a new DefaultTaskService with required services and repositories.
      *
-     * @param taskRepository Repository for task data access.
-     * @param projectService Service for managing project-related operations.
-     * @param userService Service for managing user-related operations.
+     * @param taskRepository            Repository for task data access.
+     * @param usersRepository
+     * @param projectService            Service for managing project-related operations.
+     * @param userService               Service for managing user-related operations.
      * @param userProjectMappingService Service for managing mappings between users and projects.
      */
     @Autowired
-    public DefaultTaskService(TasksRepository taskRepository, ProjectService projectService, UserService userService, UserProjectMappingService userProjectMappingService) {
+    public DefaultTaskService(TasksRepository taskRepository, UsersRepository usersRepository, ProjectService projectService, UserService userService, UserProjectMappingService userProjectMappingService) {
         this.taskRepository = taskRepository;
+        this.usersRepository = usersRepository;
         this.projectService = projectService;
         this.userService = userService;
         this.userProjectMappingService = userProjectMappingService;
@@ -160,5 +166,15 @@ public class DefaultTaskService implements TaskService {
     @Override
     public List<Task> getTasksByProject(int projectId) {
        return taskRepository.findByProjectId(projectId);
+    }
+
+
+    public List<Task> getTasksByUsername(String username) {
+        Optional<User> user = usersRepository.findByUsername(username);
+        if (user.isPresent()) {
+            return taskRepository.findByAssignedToUserId(user.get().getId());
+        } else {
+            return new ArrayList<>(); // or handle this case as needed
+        }
     }
 }

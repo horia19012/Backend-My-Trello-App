@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service interface for managing users in the system.
@@ -53,5 +54,9 @@ public interface UserService {
      */
     void deleteUser(int userId);
 
+    Optional<String> getUsernameById(int userId);
+
 //    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+
 }

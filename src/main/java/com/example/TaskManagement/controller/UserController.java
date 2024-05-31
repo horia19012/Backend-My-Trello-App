@@ -5,12 +5,14 @@ import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller class for managing user-related endpoints.
@@ -66,6 +68,7 @@ public class UserController {
         return ResponseEntity.ok("User deleted");
     }
 
+
     /**
      * Updates an existing user in the system.
      *
@@ -76,5 +79,26 @@ public class UserController {
     @ResponseBody
     public User updateUser(@RequestBody UserDTO userDTO) {
         return userService.updateUser(userDTO);
+    }
+
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        User user = userService.getUserByUsername(username);
+        if (user!=null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/id/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable int userId) {
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

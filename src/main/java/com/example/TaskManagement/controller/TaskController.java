@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -82,6 +83,8 @@ public class TaskController {
         }
     }
 
+
+
     /**
      * DELETE endpoint to delete a task by its ID.
      *
@@ -106,6 +109,14 @@ public class TaskController {
         return ResponseEntity.ok().body(tasks);
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<Task>> getTasksByUsername(@PathVariable String username) {
+        List<Task> tasks = taskService.getTasksByUsername(username);
+        if (tasks.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(tasks);
+        }
+        return ResponseEntity.ok().body(tasks);
+    }
     /**
      * GET endpoint to retrieve tasks by project ID.
      *

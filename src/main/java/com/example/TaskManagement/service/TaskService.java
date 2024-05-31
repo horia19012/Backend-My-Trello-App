@@ -21,4 +21,6 @@ public interface TaskService {
 
     public List<Task> getTasksByProject(int projectId);
 
+    public List<Task> getTasksByUsername(String username);
+
 }

@@ -9,13 +9,9 @@ import com.example.TaskManagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,6 +117,11 @@ public class DefaultUserService implements UserService {
         Optional<User> userOptional = usersRepository.findByUsername(username);
         return userOptional.orElse(null);
     }
+    @Override
+    public Optional<String> getUsernameById(int userId) {
+        return usersRepository.findUsernameById(userId);
+    }
+
 
 
 

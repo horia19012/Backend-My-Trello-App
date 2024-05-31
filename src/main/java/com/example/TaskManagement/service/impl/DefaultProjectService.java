@@ -151,4 +151,6 @@ public class DefaultProjectService implements ProjectService {
     public void setProjectObservable(ProjectObservable projectObservable) {
         this.projectObservable = projectObservable;
     }
+
+
 }

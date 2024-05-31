@@ -23,4 +23,13 @@ public interface ProjectService {
     void notifyUsers(Project project, ProjectModification projectModification);
 
 
+    /**
+     * Retrieves projects by the owner's user ID.
+     *
+     * @param ownerId The ID of the owner.
+     * @return A list of projects owned by the user.
+     */
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.TaskManagement.controller;
 
+import com.example.TaskManagement.entity.Project;
 import com.example.TaskManagement.entity.User;
 import com.example.TaskManagement.entity.UserProjectMapping;
 import com.example.TaskManagement.service.UserProjectMappingService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Set;
  * This class handles API requests to add, remove, and retrieve users associated with specific projects.
  */
 @RestController
-@RequestMapping("/user-project-mappings")
+@RequestMapping("/api/user-project-mappings")
 public class UserProjectMappingController {
 
     private final UserProjectMappingService userProjectMappingService;
@@ -65,5 +67,11 @@ public class UserProjectMappingController {
     public ResponseEntity<Void> removeUserFromProject(@PathVariable int userId, @PathVariable int projectId) {
         userProjectMappingService.removeUserFromProject(userId, projectId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/users/{userId}/projects")
+    public ResponseEntity<List<Project>> getProjectsByUser(@PathVariable int userId) {
+        List<Project> projects = userProjectMappingService.getProjectsByUser(userId);
+        return ResponseEntity.ok(projects);
     }
 }

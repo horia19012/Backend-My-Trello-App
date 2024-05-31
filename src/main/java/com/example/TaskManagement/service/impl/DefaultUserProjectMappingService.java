@@ -72,4 +72,5 @@ public class DefaultUserProjectMappingService implements UserProjectMappingServi
         userProjectMappingRepository.delete(userProjectMappingRepository.findByUserIdAndProjectId(userId, projectId));
     }
 
+
 }

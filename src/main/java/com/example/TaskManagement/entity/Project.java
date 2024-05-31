@@ -29,7 +29,7 @@ public class Project {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner")
     private User owner;
 
     /**
