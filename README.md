@@ -311,4 +311,72 @@ Status Codes:
 200 OK: Successful operation.
 
 
+## Security Features
+
+### Security Configuration with FilterChain
+- **Access Control:** My app uses FilterChain to control access to different pages based on user roles.
+- **Dynamic Authorization:** Access permissions are dynamically adjusted based on user roles, ensuring only authorized users can access specific functionalities.
+
+### Password Encryption with BCrypt
+- **Secure Storage:** Passwords are encrypted using BCrypt before storage in the database.
+- **Salting and Hashing:** BCrypt employs salting and hashing techniques to generate secure password hashes, enhancing security.
+
+
+### User Authentication
+- **LoginRequestDto:** A dedicated DTO (`LoginRequestDto`) is used to encapsulate user login credentials, providing a structured format for handling login requests.
+- **Authentication Controller:** A new controller is introduced specifically for authentication purposes, containing methods to authenticate users by verifying their credentials.
+- **Authentication Service:** The `AuthenticationService` class is responsible for authenticating users by validating their credentials against stored user data.
+
+
+## Frontend Setup with Angular
+
+For the frontend, I chose to use Angular to provide a modern and responsive user interface. Here's an overview of the frontend functionality:
+
+- **Login and Registration:** The first page of the application is the login page, where users can log in with their credentials. Additionally, there is a registration option for new users to create an account.
+- **Dashboard:** After successful login, users are redirected to the dashboard, where they can view all user projects.
+- **Navbar Options:** The navbar provides users with several options:
+  - **Show User Tasks:** Displays tasks assigned to the user, allowing them to edit and track their progress.
+  - **Show User Projects:** Shows projects created by the user.
+  - **Create Project:** Allows users to create new projects or tasks within existing projects.
+  - **Log Out:** Logs the user out of the application.
+- **Admin Privileges:** Administrators have additional options, including the ability to delete users, projects, and more.
+
+
+## Application Screenshots
+
+Here are some screenshots of My App in action:
+
+1. Login Page
+![Login Page](/images/1.png)
+
+2. Register
+![Register](/images/2.png)
+
+3. Dashboard
+![Dashboard](/images/3.png)
+
+4. User Tasks
+![User Tasks](/images/4.png)
+
+5. User Projects
+![User Projects](/images/5.png)
+
+6. Create Project
+![Create Project](/images/6.png)
+
+
+## UML Diagram
+![UML Diagram](/images/uml.png)
+
+## Use Case Diagram
+![Use Case Diagram](/images/usecase.jpg)
+
+
+
+
+## Database
+
+For the database, I utilized XAMPP and PHPMyAdmin to provide a robust and user-friendly database management solution.
+
+
 
